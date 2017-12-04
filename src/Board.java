@@ -21,6 +21,9 @@ public class Board{
   }
 
   public Square getSquare(int y, int x){
+    if (y < 0 || y > 7 || x < 0 || x > 7) {
+      return null;
+    }
     return gameboard[y][x];
   }
 

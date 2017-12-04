@@ -103,17 +103,21 @@ public class Player {
       // EnPass?
 
       if (board.getSquare(startY+dir,startX+1).occupiedBy() == Color.NONE) {
-        if (board.getSquare(startY,startX+1).getPawn().getEP()) {
-          Square toSquare = new Square(startY + dir,startX+1);
-          moveList[moveCount] = new Move(startSquare,toSquare,true,true);
-          moveCount += 1;
+        if (board.getSquare(startY,startX+1).getPawn() != null) {
+          if (board.getSquare(startY,startX+1).getPawn().getEP()) {
+            Square toSquare = new Square(startY + dir,startX+1);
+            moveList[moveCount] = new Move(startSquare,toSquare,true,true);
+            moveCount += 1;
+          }
         }
       }
       if (board.getSquare(startY+dir,startX-1).occupiedBy() == Color.NONE) {
-        if (board.getSquare(startY,startX-1).getPawn().getEP()) {
-          Square toSquare = new Square(startY + dir,startX-1);
-          moveList[moveCount] = new Move(startSquare,toSquare,true,true);
-          moveCount += 1;
+        if (board.getSquare(startY,startX-1).getPawn() != null) {
+          if (board.getSquare(startY,startX-1).getPawn().getEP()) {
+            Square toSquare = new Square(startY + dir,startX-1);
+            moveList[moveCount] = new Move(startSquare,toSquare,true,true);
+            moveCount += 1;
+          }
         }
       }
     }
