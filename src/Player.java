@@ -155,7 +155,7 @@ public class Player {
 
   public void makeMove() {
     Move[] allValid = getAllValidMoves();
-    Move choice = allValid[new Random().nextInt(allValid.length())];
+    Move choice = allValid[new Random().nextInt(allValid.length)];
     game.applyMove(choice);
   }
 }

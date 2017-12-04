@@ -80,8 +80,8 @@ public class Board{
         } else{
           System.out.print(".");
         }
-        System.out.println(" " + i);
       }
+      System.out.println(" " + i);
     }
     System.out.println("            ");
     System.out.println("  ABCDEFGH  ");
