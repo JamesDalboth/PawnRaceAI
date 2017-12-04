@@ -1,3 +1,3 @@
 public enum Color {
-  BLACK, WHITE, NONE;
+  WHITE ,BLACK ,NONE;
 }

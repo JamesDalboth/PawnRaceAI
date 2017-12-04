@@ -4,6 +4,7 @@ public class Square {
   private int yCoord;
 
   private Color occupant = Color.NONE;
+  private Pawn piece;
 
   public Square(int x, int y) {
     xCoord = x;
@@ -22,8 +23,17 @@ public class Square {
     return occupant;
   }
 
+  public Pawn getPawn(){
+    return piece;
+  }
+
   public void setOccupier(Color color) {
     occupant = color;
+    if (color == Color.NONE) {
+      piece = null;
+    } else{
+      piece = new Pawn(color);
+    }
   }
 
 }

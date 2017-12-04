@@ -21,8 +21,8 @@ public class Board{
     }
   }
 
-  public Square getSquare(int x, int y){
-    return gameboard[x][y];
+  public Square getSquare(int y, int x){
+    return gameboard[y][x];
   }
 
   public void applyMove(Move move) {
@@ -35,8 +35,10 @@ public class Board{
     if (move.isEnPassantCaputre()) {
       if (gameboard[frX][frY].occupiedBy() == Color.WHITE){
         gameboard[frY - 1][frX].setOccupier(Color.NONE);
+        gameboard[toY][toX].getPawn().Move(true);
       } else {
         gameboard[frY + 1][frX].setOccupier(Color.NONE);
+        gameboard[toY][toX].getPawn().Move(false);
       }
     }
   }
