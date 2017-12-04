@@ -29,8 +29,8 @@ public class Move {
 
   public String getSAN() {
     String move = "";
-    String startPos = ((char) (lastSquare.getX()+96)) + "";
-    String endPos = ((char) (nextSquare.getX()+96)) + "" + nextSquare.getY();
+    String startPos = ((char) (lastSquare.getX()+97)) + "";
+    String endPos = ((char) (nextSquare.getX()+97)) + "" + nextSquare.getY();
     if (!isCapture()) {
       move = startPos + "-";
     }
