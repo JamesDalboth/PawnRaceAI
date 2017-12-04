@@ -3,9 +3,8 @@ public class Board{
   private Square[][] gameboard = new Square[8][8];
 
   public Board(char whiteGap, char blackGap) {
-    int wx = (int) whiteGap;
-    int bx = (int) blackGap;
-
+    int wx = ((int) whiteGap) - 65;
+    int bx = ((int) blackGap) - 65;
     for (int i = 0; i < 8; i ++) {
       for (int j = 0; j < 8; j ++) {
         gameboard[i][j] = new Square(i,j);
