@@ -12,10 +12,10 @@ public class Board{
     }
     for (int i = 0; i < 8; i++) {
       if (i != wx) {
-        gameboard[1][i].setOccupier(Color.WHITE);
+        gameboard[i][0].setOccupier(Color.WHITE);
       }
       if (i != bx) {
-        gameboard[6][i].setOccupier(Color.BLACK);
+        gameboard[i][6].setOccupier(Color.BLACK);
       }
     }
   }

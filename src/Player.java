@@ -66,7 +66,6 @@ public class Player {
       }
 
       //Can move forward One
-
       if (board.getSquare(startY + dir,startX).occupiedBy() == Color.NONE) {
         Square toSquare = new Square(startX,startY+dir);
         moveList[moveCount] = new Move(startSquare,toSquare,false,false);
