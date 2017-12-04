@@ -12,7 +12,7 @@ public class Board{
     }
     for (int i = 0; i < 8; i++) {
       if (i != wx) {
-        gameboard[i][0].setOccupier(Color.WHITE);
+        gameboard[i][1].setOccupier(Color.WHITE);
       }
       if (i != bx) {
         gameboard[i][6].setOccupier(Color.BLACK);
@@ -75,9 +75,9 @@ public class Board{
     for (int i = 8; i > 0; i--){
       System.out.print(i + " ");
       for (int j = 0; j < 8; j++){
-        if (gameboard[i-1][j].occupiedBy() == Color.WHITE){
+        if (gameboard[j][i-1].occupiedBy() == Color.WHITE){
           System.out.print("W");
-        } else if (gameboard[i-1][j].occupiedBy() == Color.BLACK) {
+        } else if (gameboard[j][i-1].occupiedBy() == Color.BLACK) {
           System.out.print("B");
         } else{
           System.out.print(".");

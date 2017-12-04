@@ -49,10 +49,12 @@ public class Game {
 
     public boolean isFinished() {
       for (int i = 0; i < 8;i++) {
-        if (brd.getSquare(0,i).occupiedBy() != Color.NONE) {
+        if (brd.getSquare(i,0).occupiedBy() != Color.NONE) {
+        System.out.println(i + " , " + 0);
           return true;
         }
-        if (brd.getSquare(7,i).occupiedBy() != Color.NONE) {
+        if (brd.getSquare(i,7).occupiedBy() != Color.NONE) {
+          System.out.println(i + " , " + 7);
           return true;
         }
       }
