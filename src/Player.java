@@ -74,12 +74,14 @@ public class Player {
       }
 
       //Can move forward two
-      if (board.getSquare(startY,startX).getPawn().hasMoved()){
-        if (board.getSquare(startY + dir,startX).occupiedBy() == Color.NONE &&
-        board.getSquare(startY + 2*dir,startX).occupiedBy() == Color.NONE){
-          Square toSquare = new Square(startX,startY+2*dir);
-          moveList[moveCount] = new Move(startSquare,toSquare,false,false);
-          moveCount += 1;
+      if (board.getSquare(startY,startX).getPawn() != null) {
+        if (board.getSquare(startY,startX).getPawn().hasMoved()){
+          if (board.getSquare(startY + dir,startX).occupiedBy() == Color.NONE &&
+          board.getSquare(startY + 2*dir,startX).occupiedBy() == Color.NONE){
+            Square toSquare = new Square(startX,startY+2*dir);
+            moveList[moveCount] = new Move(startSquare,toSquare,false,false);
+            moveCount += 1;
+          }
         }
       }
 
