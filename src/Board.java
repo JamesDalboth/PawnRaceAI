@@ -1,3 +1,4 @@
+import java.lang.Math;
 public class Board{
 
   private Square[][] gameboard = new Square[8][8];
@@ -73,6 +74,27 @@ public class Board{
     }
     System.out.println("            ");
     System.out.println("  ABCDEFGH  ");
+  }
+
+  public int eval() {
+    int score = 0;
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        if (gameboard[i][j].occupiedBy() == Color.WHITE) {
+          if (i == 7) {
+            return 9999;
+          }
+          score += java.lang.Math.pow(2,i);
+        }
+        if (gameboard[i][j].occupiedBy() == Color.BLACK) {
+          if (i == 7) {
+            return -9999;
+          }
+          score -= java.lang.Math.pow(2,7-i);
+        }
+      }
+    }
+    return score;
   }
 
 }
