@@ -20,11 +20,11 @@ public class Board{
     }
   }
 
-  public Square getSquare(int y, int x){
+  public Square getSquare(int x, int y){
     if (y < 0 || y > 7 || x < 0 || x > 7) {
       return null;
     }
-    return gameboard[y][x];
+    return gameboard[x][y];
   }
 
   public void applyMove(Move move) {
@@ -32,15 +32,15 @@ public class Board{
     int toY = move.getTo().getY();
     int frX = move.getFrom().getX();
     int frY = move.getFrom().getY();
-    gameboard[toY][toX].setOccupier(gameboard[frY][frX].occupiedBy());
-    gameboard[frY][frX].setOccupier(Color.NONE);
+    gameboard[toX][toY].setOccupier(gameboard[frX][frY].occupiedBy());
+    gameboard[frX][frY].setOccupier(Color.NONE);
     if (move.isEnPassantCaputre()) {
       if (gameboard[frX][frY].occupiedBy() == Color.WHITE){
-        gameboard[frY - 1][frX].setOccupier(Color.NONE);
-        gameboard[toY][toX].getPawn().Move(true);
+        gameboard[frX - 1][frY].setOccupier(Color.NONE);
+        gameboard[toX][toY].getPawn().Move(true);
       } else {
-        gameboard[frY + 1][frX].setOccupier(Color.NONE);
-        gameboard[toY][toX].getPawn().Move(false);
+        gameboard[frX + 1][frY].setOccupier(Color.NONE);
+        gameboard[toX][toY].getPawn().Move(false);
       }
     }
   }
@@ -50,20 +50,20 @@ public class Board{
     int frY = move.getTo().getY();
     int toX = move.getFrom().getX();
     int toY = move.getFrom().getY();
-    gameboard[toY][toX].setOccupier(gameboard[frY][frX].occupiedBy());
-    gameboard[frY][frX].setOccupier(Color.NONE);
+    gameboard[toX][toY].setOccupier(gameboard[frY][frX].occupiedBy());
+    gameboard[frX][frY].setOccupier(Color.NONE);
     if (move.isCapture()){
       if (gameboard[frX][frY].occupiedBy() == Color.WHITE){
         if (move.isEnPassantCaputre()) {
-          gameboard[frY - 1][frX].setOccupier(Color.BLACK);
+          gameboard[frX - 1][frY].setOccupier(Color.BLACK);
         } else {
-          gameboard[frY][frX].setOccupier(Color.BLACK);
+          gameboard[frX][frY].setOccupier(Color.BLACK);
         }
       } else {
         if (move.isEnPassantCaputre()) {
-          gameboard[frY + 1][frX].setOccupier(Color.WHITE);
+          gameboard[frX + 1][frY].setOccupier(Color.WHITE);
         } else {
-          gameboard[frY][frX].setOccupier(Color.WHITE);
+          gameboard[frX][frY].setOccupier(Color.WHITE);
         }
       }
     }

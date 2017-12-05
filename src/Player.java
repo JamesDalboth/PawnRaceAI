@@ -169,8 +169,5 @@ public class Player {
     Move[] allValid = getAllValidMoves();
     Move choice = allValid[new Random().nextInt(allValid.length)];
     game.applyMove(choice);
-    for (int i = 0; i < allValid.length;i ++) {
-      System.out.println(allValid[i].getSAN());
-    }
   }
 }
