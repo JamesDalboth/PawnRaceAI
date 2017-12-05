@@ -35,26 +35,12 @@ public class Game {
 
   }
 
-  public void unapplyMove() {
-    if (moveInd != -1) {
-      moveInd -= 1;
-      brd.unapplyMove(moves[moveInd]);
-      if (player == Color.WHITE) {
-        player = Color.BLACK;
-      } else {
-        player = Color.WHITE;
-      }
-    }
-  }
-
     public boolean isFinished() {
       for (int i = 0; i < 8;i++) {
         if (brd.getSquare(i,0).occupiedBy() != Color.NONE) {
-        System.out.println(i + " , " + 0);
           return true;
         }
         if (brd.getSquare(i,7).occupiedBy() != Color.NONE) {
-          System.out.println(i + " , " + 7);
           return true;
         }
       }

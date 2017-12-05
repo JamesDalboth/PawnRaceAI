@@ -12,10 +12,10 @@ public class Board{
     }
     for (int i = 0; i < 8; i++) {
       if (i != wx) {
-        gameboard[i][1].setOccupier(Color.WHITE);
+        gameboard[i][1].setOccupier(Color.WHITE,new Pawn(Color.WHITE));
       }
       if (i != bx) {
-        gameboard[i][6].setOccupier(Color.BLACK);
+        gameboard[i][6].setOccupier(Color.BLACK,new Pawn(Color.WHITE));
       }
     }
   }
@@ -32,41 +32,18 @@ public class Board{
     int toY = move.getTo().getY();
     int frX = move.getFrom().getX();
     int frY = move.getFrom().getY();
-    gameboard[toX][toY].setOccupier(gameboard[frX][frY].occupiedBy());
-    gameboard[frX][frY].setOccupier(Color.NONE);
+    gameboard[toX][toY].setOccupier(gameboard[frX][frY].occupiedBy(),gameboard[frX][frY].getPawn());
+    gameboard[frX][frY].setOccupier(Color.NONE,null);
     if (move.isEnPassantCaputre()) {
       if (gameboard[frX][frY].occupiedBy() == Color.WHITE){
-        gameboard[frX - 1][frY].setOccupier(Color.NONE);
+        gameboard[frX - 1][frY].setOccupier(Color.NONE,null);
         gameboard[toX][toY].getPawn().Move(true);
       } else {
-        gameboard[frX + 1][frY].setOccupier(Color.NONE);
-        gameboard[toX][toY].getPawn().Move(false);
+        gameboard[frX + 1][frY].setOccupier(Color.NONE,null);
+        gameboard[toX][toY].getPawn().Move(true);
       }
     }
-  }
-
-  public void unapplyMove(Move move) {
-    int frX = move.getTo().getX();
-    int frY = move.getTo().getY();
-    int toX = move.getFrom().getX();
-    int toY = move.getFrom().getY();
-    gameboard[toX][toY].setOccupier(gameboard[frY][frX].occupiedBy());
-    gameboard[frX][frY].setOccupier(Color.NONE);
-    if (move.isCapture()){
-      if (gameboard[frX][frY].occupiedBy() == Color.WHITE){
-        if (move.isEnPassantCaputre()) {
-          gameboard[frX - 1][frY].setOccupier(Color.BLACK);
-        } else {
-          gameboard[frX][frY].setOccupier(Color.BLACK);
-        }
-      } else {
-        if (move.isEnPassantCaputre()) {
-          gameboard[frX + 1][frY].setOccupier(Color.WHITE);
-        } else {
-          gameboard[frX][frY].setOccupier(Color.WHITE);
-        }
-      }
-    }
+    gameboard[toX][toY].getPawn().Move(true);
   }
 
   public void display() {

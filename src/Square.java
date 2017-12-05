@@ -27,12 +27,12 @@ public class Square {
     return piece;
   }
 
-  public void setOccupier(Color color) {
+  public void setOccupier(Color color,Pawn pwn) {
     occupant = color;
     if (color == Color.NONE) {
       piece = null;
     } else{
-      piece = new Pawn(color);
+      piece = pwn;
     }
   }
 
