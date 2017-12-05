@@ -30,7 +30,7 @@ public class Move {
   public String getSAN() {
     String move = "";
     String startPos = ((char) (lastSquare.getX()+97)) + "";
-    String endPos = ((char) (nextSquare.getX()+97)) + "" + nextSquare.getY();
+    String endPos = ((char) (nextSquare.getX()+97)) + "" + (nextSquare.getY()+1);
     if (!isCapture()) {
       move = startPos + "-";
     }

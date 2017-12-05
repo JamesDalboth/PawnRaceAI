@@ -18,14 +18,16 @@ public class PawnRace {
     Player player1 = new Player(game,board,Color.WHITE,player1Human);
     Player player2 = new Player(game,board,Color.BLACK,player2Human);
     boolean player1Move = true;
-
-    while (!game.isFinished()) {
+    boolean pause = true;
+    while (!game.isFinished() && pause) {
       board.display();
       if (player1Move == true) {
         player1.makeMove();
       } else {
         player2.makeMove();
       }
+      pause = true;
+      player1Move = !player1Move;
     }
   }
 }

@@ -66,17 +66,17 @@ public class Player {
       }
 
       //Can move forward One
-      if (board.getSquare(startY + dir,startX).occupiedBy() == Color.NONE) {
+      if (board.getSquare(startX,startY + dir).occupiedBy() == Color.NONE) {
         Square toSquare = new Square(startX,startY+dir);
         moveList[moveCount] = new Move(startSquare,toSquare,false,false);
         moveCount += 1;
       }
 
       //Can move forward two
-      if (board.getSquare(startY,startX).getPawn() != null) {
-        if (board.getSquare(startY,startX).getPawn().hasMoved()){
-          if (board.getSquare(startY + dir,startX).occupiedBy() == Color.NONE &&
-          board.getSquare(startY + 2*dir,startX).occupiedBy() == Color.NONE){
+      if (board.getSquare(startX,startY).getPawn() != null) {
+        if (board.getSquare(startX,startY).getPawn().hasMoved()){
+          if (board.getSquare(startX,startY + dir).occupiedBy() == Color.NONE &&
+          board.getSquare(startX,startY + 2*dir).occupiedBy() == Color.NONE){
             Square toSquare = new Square(startX,startY+2*dir);
             moveList[moveCount] = new Move(startSquare,toSquare,false,false);
             moveCount += 1;
@@ -90,16 +90,16 @@ public class Player {
       if (color == oppCol){
         oppCol = Color.BLACK;
       }
-      if (board.getSquare(startY + dir,startX+1) != null) {
-        if (board.getSquare(startY + dir,startX+1).occupiedBy() == oppCol) {
-          Square toSquare = new Square(startY + dir,startX+1);
+      if (board.getSquare(startX+1,startY + dir) != null) {
+        if (board.getSquare(startX+1,startY + dir).occupiedBy() == oppCol) {
+          Square toSquare = new Square(startX+1,startY + dir);
           moveList[moveCount] = new Move(startSquare,toSquare,true,false);
           moveCount += 1;
         }
       }
-      if (board.getSquare(startY + dir,startX-1) != null) {
-        if (board.getSquare(startY + dir,startX-1).occupiedBy() == oppCol) {
-          Square toSquare = new Square(startY + dir,startX-1);
+      if (board.getSquare(startX-1,startY + dir) != null) {
+        if (board.getSquare(startX-1,startY + dir).occupiedBy() == oppCol) {
+          Square toSquare = new Square(startX-1,startY + dir);
           moveList[moveCount] = new Move(startSquare,toSquare,true,false);
           moveCount +=1 ;
         }
@@ -169,5 +169,8 @@ public class Player {
     Move[] allValid = getAllValidMoves();
     Move choice = allValid[new Random().nextInt(allValid.length)];
     game.applyMove(choice);
+    for (int i = 0; i < allValid.length;i ++) {
+      System.out.println(allValid[i].getSAN());
+    }
   }
 }
