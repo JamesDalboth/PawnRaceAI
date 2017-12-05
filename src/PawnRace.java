@@ -23,9 +23,9 @@ public class PawnRace {
     while (!game.isFinished()) {
       board.display();
       if (player1Move == true) {
-        player1.makeMove();
+        player1.makeMove(3,true);
       } else {
-        player2.makeMove();
+        player2.AI1();
       }
       player1Move = !player1Move;
       String bob = in.nextLine();

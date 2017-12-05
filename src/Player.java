@@ -167,7 +167,70 @@ public class Player {
     return true;
   }
 
-  public void makeMove() {
+  public void makeMove(int depth,boolean isMax) {
+
+    Move[] allValid = getAllValidMoves();
+    Move bestMove = null;
+    int bestScore = -10000;
+    for (int i = 0; i < allValid.length; i++) {
+      Move choice = allValid[i];
+      game.applyMove(choice);
+      int score = minimax(depth,!isMax);
+      if (color == Color.BLACK) {
+        score *= -1;
+      }
+      game.unApplyMove(choice);
+      if (score > bestScore) {
+        bestScore = score;
+        bestMove = choice;
+      }
+    }
+    game.applyMove(bestMove);
+    System.out.println("___________");
+    System.out.println(bestMove.getSAN());
+    System.out.println("___________");
+    if (isMax == true) {
+      color = Color.WHITE;
+    } else{
+      color = Color.BLACK;
+    }
+  }
+
+  public int minimax(int depth,boolean isMax) {
+    if (isMax == true) {
+      color = Color.WHITE;
+    } else{
+      color = Color.BLACK;
+    }
+
+    if (depth == 0) {
+      return board.eval();
+    }
+    Move[] allValid = getAllValidMoves();
+    if (isMax){
+      int bestMove = -9999;
+      for (int i = 0; i < allValid.length; i++) {
+        Move choice = allValid[i];
+        game.applyMove(choice);
+        bestMove = Math.max(bestMove,minimax(depth-1,!isMax));
+        game.unApplyMove(choice);
+      }
+      return bestMove;
+    } else {
+      int bestMove = 9999;
+      for (int i = 0; i < allValid.length; i++) {
+        Move choice = allValid[i];
+        game.applyMove(choice);
+        bestMove = Math.min(bestMove,minimax(depth-1,!isMax));
+        game.unApplyMove(choice);
+      }
+      return bestMove;
+    }
+  }
+
+
+
+  public void AI1() {
     Move[] allValid = getAllValidMoves();
     Move bestMove = null;
     int bestScore = -10000;
