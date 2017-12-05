@@ -22,13 +22,13 @@ public class PawnRace {
     Scanner in = new Scanner(System.in);
     while (!game.isFinished()) {
       board.display();
+      String bob = in.nextLine();
       if (player1Move == true) {
-        player1.makeMove(3,true);
+      player1.makeMove(4,true);
       } else {
         player2.AI1();
       }
       player1Move = !player1Move;
-      String bob = in.nextLine();
     }
     board.display();
   }

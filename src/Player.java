@@ -25,11 +25,11 @@ public class Player {
     return isComputerPlayer;
   }
 
-  public Square[] getAllPawns(){
+  public Square[] getAllPawns(Color col){
     int count = 0;
     for (int i = 0; i < 8; i++){
       for (int j = 0; j < 8; j++){
-        if (board.getSquare(i,j).occupiedBy() == color){
+        if (board.getSquare(i,j).occupiedBy() == col){
           count += 1;
         }
       }
@@ -38,7 +38,7 @@ public class Player {
     count = 0;
     for (int i = 0; i < 8; i++){
       for (int j = 0; j < 8; j++){
-        if (board.getSquare(i,j).occupiedBy() == color){
+        if (board.getSquare(i,j).occupiedBy() == col){
           pawns[count] = board.getSquare(i,j);
           count += 1;
         }
@@ -47,8 +47,8 @@ public class Player {
     return pawns;
   }
 
-  public Move[] getAllValidMoves(){
-    Square[] pawns = getAllPawns();
+  public Move[] getAllValidMoves(Color col){
+    Square[] pawns = getAllPawns(col);
     Move[] moveList = new Move[40];
     int moveCount = 0;
     //Go through each pawns
@@ -61,11 +61,15 @@ public class Player {
       // Calculate direction
 
       int dir = 1;
-      if (color == Color.BLACK) {
+      if (col == Color.BLACK) {
         dir = -1;
       }
 
       //Can move forward One
+      if (board.getSquare(startX,startY + dir) == null) {
+        System.out.println(startY);
+        board.display();
+      }
       if (board.getSquare(startX,startY + dir).occupiedBy() == Color.NONE) {
         Square toSquare = board.getSquare(startX,startY+dir);
         moveList[moveCount] = new Move(startSquare,toSquare,false,false);
@@ -87,7 +91,7 @@ public class Player {
       //Can take normal
 
       Color oppCol = Color.WHITE;
-      if (color == oppCol){
+      if (col == oppCol){
         oppCol = Color.BLACK;
       }
       if (board.getSquare(startX+1,startY + dir) != null) {
@@ -138,13 +142,13 @@ public class Player {
     return result;
   }
 
-  public boolean isPassedPawn(Square square) {
+  public boolean isPassedPawn(Square square,Color col) {
     Color oppCol = Color.WHITE;
-    if (color == oppCol){
+    if (col == oppCol){
       oppCol = Color.BLACK;
     }
 
-    if (color == Color.WHITE) {
+    if (col == Color.WHITE) {
       for (int i = square.getY();i<8;i++){
         for (int j = 0; j < 8;j++){
           if (board.getSquare(i,j).occupiedBy() == oppCol) {
@@ -154,7 +158,7 @@ public class Player {
       }
     }
 
-    if (color == Color.BLACK) {
+    if (col == Color.BLACK) {
       for (int i = square.getY();i>=0;i--){
         for (int j = 0; j < 8;j++){
           if (board.getSquare(i,j).occupiedBy() == oppCol) {
@@ -168,16 +172,18 @@ public class Player {
   }
 
   public void makeMove(int depth,boolean isMax) {
-
-    Move[] allValid = getAllValidMoves();
+    Move[] allValid = getAllValidMoves(color);
     Move bestMove = null;
     int bestScore = -10000;
     for (int i = 0; i < allValid.length; i++) {
       Move choice = allValid[i];
       game.applyMove(choice);
-      int score = minimax(depth,!isMax);
-      if (color == Color.BLACK) {
-        score *= -1;
+      int score = 0;
+      int curState = board.eval();
+      if (curState == 9999 || curState == -9999) {
+        score = curState;
+      } else {
+        score = minimax(depth-1,!isMax);
       }
       game.unApplyMove(choice);
       if (score > bestScore) {
@@ -189,25 +195,18 @@ public class Player {
     System.out.println("___________");
     System.out.println(bestMove.getSAN());
     System.out.println("___________");
-    if (isMax == true) {
-      color = Color.WHITE;
-    } else{
-      color = Color.BLACK;
-    }
   }
 
   public int minimax(int depth,boolean isMax) {
-    if (isMax == true) {
-      color = Color.WHITE;
-    } else{
-      color = Color.BLACK;
+    int curState = board.eval();
+    if (curState == 9999 || curState == -9999) {
+      return curState;
     }
-
     if (depth == 0) {
       return board.eval();
     }
-    Move[] allValid = getAllValidMoves();
     if (isMax){
+      Move[] allValid = getAllValidMoves(Color.WHITE);
       int bestMove = -9999;
       for (int i = 0; i < allValid.length; i++) {
         Move choice = allValid[i];
@@ -217,6 +216,7 @@ public class Player {
       }
       return bestMove;
     } else {
+      Move[] allValid = getAllValidMoves(Color.BLACK);
       int bestMove = 9999;
       for (int i = 0; i < allValid.length; i++) {
         Move choice = allValid[i];
@@ -231,7 +231,7 @@ public class Player {
 
 
   public void AI1() {
-    Move[] allValid = getAllValidMoves();
+    Move[] allValid = getAllValidMoves(color);
     Move bestMove = null;
     int bestScore = -10000;
     for (int i = 0; i < allValid.length; i++) {

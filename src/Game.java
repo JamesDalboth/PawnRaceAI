@@ -108,13 +108,13 @@ public class Game {
         }
       } else {
         if (player == Color.WHITE) {
-          if (brd.getSquare(toY - 1,fromX).occupiedBy() == Color.WHITE) {
+          if (brd.getSquare(toY - 1,toX).occupiedBy() == Color.WHITE) {
             fromY = toY - 1;
           } else {
             return null;
           }
         } else {
-          if (brd.getSquare(toY + 1,fromX).occupiedBy() == Color.BLACK) {
+          if (brd.getSquare(toY + 1,toX).occupiedBy() == Color.BLACK) {
             fromY = toY + 1;
           } else {
             return null;

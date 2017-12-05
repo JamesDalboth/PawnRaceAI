@@ -42,11 +42,8 @@ public class Board{
     gameboard[toX][toY].setOccupier(gameboard[frX][frY].occupiedBy(),gameboard[frX][frY].getPawn());
     gameboard[frX][frY].setOccupier(Color.NONE,null);
     if (move.isEnPassantCaputre()) {
-      if (gameboard[frX][frY].occupiedBy() == Color.WHITE){
-        gameboard[frX - 1][frY].setOccupier(Color.NONE,null);
-      } else {
-        gameboard[frX + 1][frY].setOccupier(Color.NONE,null);
-      }
+      gameboard[toX][frY].setOccupier(Color.NONE,null);
+      gameboard[toX][frY].setOccupier(Color.NONE,null);
     }
     if (frY - 2 == toY || frY + 2 == toY) {
       gameboard[toX][toY].Move(true);
@@ -62,6 +59,15 @@ public class Board{
     int frY = move.getFrom().getY();
     gameboard[toX][toY] = copySquare(move.getTo());
     gameboard[frX][frY] = copySquare(move.getFrom());
+    if (move.isEnPassantCaputre()) {
+      if (move.getFrom().occupiedBy() == Color.WHITE) {
+        gameboard[toX][frY].setOccupier(Color.BLACK,new Pawn(Color.BLACK));
+        gameboard[toX][frY].Move(true);
+      } else {
+        gameboard[toX][frY].setOccupier(Color.WHITE,new Pawn(Color.WHITE));
+        gameboard[toX][frY].Move(true);
+      }
+    }
   }
 
   public void display() {
