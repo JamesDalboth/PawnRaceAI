@@ -31,7 +31,7 @@ public class Move {
     String move = "";
     String startPos = ((char) (lastSquare.getX()+97)) + "";
     String endPos = ((char) (nextSquare.getX()+97)) + "" + (nextSquare.getY()+1);
-    if (!isCapture()) {
+    if (isCapture()) {
       move = startPos + "-";
     }
     move += endPos;

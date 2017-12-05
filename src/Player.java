@@ -106,22 +106,24 @@ public class Player {
       }
 
       // EnPass?
-      if (board.getSquare(startY+dir,startX+1) != null) {
-        if (board.getSquare(startY+dir,startX+1).occupiedBy() == Color.NONE) {
-          if (board.getSquare(startY,startX+1).getPawn() != null) {
-            if (board.getSquare(startY,startX+1).getPawn().getEP()) {
-              Square toSquare = new Square(startY + dir,startX+1);
+      if (board.getSquare(startX+1,startY+dir) != null) {
+        if (board.getSquare(startX+1,startY+dir).occupiedBy() == Color.NONE) {
+          if (board.getSquare(startX+1,startY).getPawn() != null) {
+            if (board.getSquare(startX+1,startY).getPawn().getEP()
+              && board.getSquare(startX+1,startY).occupiedBy() == oppCol) {
+              Square toSquare = new Square(startX+1,startY + dir);
               moveList[moveCount] = new Move(startSquare,toSquare,true,true);
               moveCount += 1;
             }
           }
         }
       }
-      if (board.getSquare(startY+dir,startX-1) != null) {
-        if (board.getSquare(startY+dir,startX-1).occupiedBy() == Color.NONE) {
-          if (board.getSquare(startY,startX-1).getPawn() != null) {
-            if (board.getSquare(startY,startX-1).getPawn().getEP()) {
-              Square toSquare = new Square(startY + dir,startX-1);
+      if (board.getSquare(startX-1,startY+dir) != null) {
+        if (board.getSquare(startX-1,startY+dir).occupiedBy() == Color.NONE) {
+          if (board.getSquare(startX-1,startY).getPawn() != null) {
+            if (board.getSquare(startX-1,startY).getPawn().getEP()
+            && board.getSquare(startX-1,startY).occupiedBy() == oppCol) {
+              Square toSquare = new Square(startX-1,startY + dir);
               moveList[moveCount] = new Move(startSquare,toSquare,true,true);
               moveCount += 1;
             }
@@ -169,5 +171,8 @@ public class Player {
     Move[] allValid = getAllValidMoves();
     Move choice = allValid[new Random().nextInt(allValid.length)];
     game.applyMove(choice);
+    System.out.println("___________");
+    System.out.println(choice.getSAN());
+    System.out.println("___________");
   }
 }

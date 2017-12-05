@@ -1,3 +1,4 @@
+import java.util.Scanner;
 public class PawnRace {
   private static boolean player1Human;
   private static boolean player2Human;
@@ -18,6 +19,7 @@ public class PawnRace {
     Player player1 = new Player(game,board,Color.WHITE,player1Human);
     Player player2 = new Player(game,board,Color.BLACK,player2Human);
     boolean player1Move = true;
+    Scanner in = new Scanner(System.in);
     while (!game.isFinished()) {
       board.display();
       if (player1Move == true) {
@@ -26,6 +28,7 @@ public class PawnRace {
         player2.makeMove();
       }
       player1Move = !player1Move;
+      String bob = in.nextLine();
     }
     board.display();
   }
