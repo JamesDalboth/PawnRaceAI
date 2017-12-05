@@ -43,7 +43,7 @@ public class Board{
         gameboard[toX][toY].getPawn().Move(true);
       }
     }
-    gameboard[toX][toY].getPawn().Move(true);
+    gameboard[toX][toY].getPawn().Move(false);
   }
 
   public void display() {
