@@ -169,10 +169,24 @@ public class Player {
 
   public void makeMove() {
     Move[] allValid = getAllValidMoves();
-    Move choice = allValid[new Random().nextInt(allValid.length)];
-    game.applyMove(choice);
+    Move bestMove = null;
+    int bestScore = -10000;
+    for (int i = 0; i < allValid.length; i++) {
+      Move choice = allValid[i];
+      game.applyMove(choice);
+      int score = board.eval();
+      if (color == Color.BLACK) {
+        score *= -1;
+      }
+      game.unApplyMove(choice);
+      if (score > bestScore) {
+        bestScore = score;
+        bestMove = choice;
+      }
+    }
+    game.applyMove(bestMove);
     System.out.println("___________");
-    System.out.println(choice.getSAN());
+    System.out.println(bestMove.getSAN());
     System.out.println("___________");
   }
 }

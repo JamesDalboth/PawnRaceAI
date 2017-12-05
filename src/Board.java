@@ -25,7 +25,13 @@ public class Board{
     if (y < 0 || y > 7 || x < 0 || x > 7) {
       return null;
     }
-    return gameboard[x][y];
+    return copySquare(gameboard[x][y]);
+  }
+
+  public Square copySquare(Square sq1) {
+    Square sq2 = new Square(sq1.getX(),sq1.getY());
+    sq2.setOccupier(sq1.occupiedBy(),sq1.getPawn());
+    return sq2;
   }
 
   public void applyMove(Move move) {
@@ -38,13 +44,15 @@ public class Board{
     if (move.isEnPassantCaputre()) {
       if (gameboard[frX][frY].occupiedBy() == Color.WHITE){
         gameboard[frX - 1][frY].setOccupier(Color.NONE,null);
-        gameboard[toX][toY].getPawn().Move(true);
       } else {
         gameboard[frX + 1][frY].setOccupier(Color.NONE,null);
-        gameboard[toX][toY].getPawn().Move(true);
       }
     }
-    gameboard[toX][toY].getPawn().Move(false);
+    if (frY - 2 == toY || frY + 2 == toY) {
+      gameboard[toX][toY].Move(true);
+    } else {
+      gameboard[toX][toY].Move(false);
+    }
   }
 
   public void undoMove(Move move) {
@@ -52,8 +60,8 @@ public class Board{
     int toY = move.getTo().getY();
     int frX = move.getFrom().getX();
     int frY = move.getFrom().getY();
-    gameboard[toX][toY] = move.getTo();
-    gameboard[frX][frY] = move.getFrom();
+    gameboard[toX][toY] = copySquare(move.getTo());
+    gameboard[frX][frY] = copySquare(move.getFrom());
   }
 
   public void display() {
@@ -72,8 +80,8 @@ public class Board{
       }
       System.out.println(" " + i);
     }
-    System.out.println("            ");
-    System.out.println("  ABCDEFGH  ");
+    System.out.println();
+    System.out.println("  A B C D E F G H  ");
   }
 
   public int eval() {
@@ -81,16 +89,16 @@ public class Board{
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         if (gameboard[i][j].occupiedBy() == Color.WHITE) {
-          if (i == 7) {
+          if (j == 7) {
             return 9999;
           }
-          score += java.lang.Math.pow(2,i);
+          score += java.lang.Math.pow(j,2);
         }
         if (gameboard[i][j].occupiedBy() == Color.BLACK) {
-          if (i == 7) {
+          if (j == 0) {
             return -9999;
           }
-          score -= java.lang.Math.pow(2,7-i);
+          score -= java.lang.Math.pow(7-j,2);
         }
       }
     }

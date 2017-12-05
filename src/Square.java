@@ -22,9 +22,27 @@ public class Square {
   public Color occupiedBy() {
     return occupant;
   }
+  public void Move(boolean doub) {
+    piece.Move(doub);
+  }
 
   public Pawn getPawn(){
-    return piece;
+    return  copyPawn(piece);
+  }
+
+  public Pawn copyPawn(Pawn pw1) {
+    if (pw1 == null) {
+      return null;
+    }
+    Pawn pw2 = new Pawn(occupant);
+    if (pw1.hasMoved()) {
+      if (pw1.getEP()) {
+        pw2.Move(true);
+      } else {
+        pw2.Move(false);
+      }
+    }
+    return pw2;
   }
 
   public void setOccupier(Color color,Pawn pwn) {
