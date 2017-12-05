@@ -56,7 +56,7 @@ public class Player {
       // get current Square
       int startX = pawn.getX();
       int startY = pawn.getY();
-      Square startSquare = new Square(startX,startY);
+      Square startSquare = board.getSquare(startX,startY);
 
       // Calculate direction
 
@@ -67,7 +67,7 @@ public class Player {
 
       //Can move forward One
       if (board.getSquare(startX,startY + dir).occupiedBy() == Color.NONE) {
-        Square toSquare = new Square(startX,startY+dir);
+        Square toSquare = board.getSquare(startX,startY+dir);
         moveList[moveCount] = new Move(startSquare,toSquare,false,false);
         moveCount += 1;
       }
@@ -77,7 +77,7 @@ public class Player {
         if (!board.getSquare(startX,startY).getPawn().hasMoved()){
           if (board.getSquare(startX,startY + dir).occupiedBy() == Color.NONE &&
           board.getSquare(startX,startY + 2*dir).occupiedBy() == Color.NONE){
-            Square toSquare = new Square(startX,startY+2*dir);
+            Square toSquare = board.getSquare(startX,startY+2*dir);
             moveList[moveCount] = new Move(startSquare,toSquare,false,false);
             moveCount += 1;
           }
@@ -92,14 +92,14 @@ public class Player {
       }
       if (board.getSquare(startX+1,startY + dir) != null) {
         if (board.getSquare(startX+1,startY + dir).occupiedBy() == oppCol) {
-          Square toSquare = new Square(startX+1,startY + dir);
+          Square toSquare = board.getSquare(startX+1,startY + dir);
           moveList[moveCount] = new Move(startSquare,toSquare,true,false);
           moveCount += 1;
         }
       }
       if (board.getSquare(startX-1,startY + dir) != null) {
         if (board.getSquare(startX-1,startY + dir).occupiedBy() == oppCol) {
-          Square toSquare = new Square(startX-1,startY + dir);
+          Square toSquare = board.getSquare(startX-1,startY + dir);
           moveList[moveCount] = new Move(startSquare,toSquare,true,false);
           moveCount +=1 ;
         }
@@ -111,7 +111,7 @@ public class Player {
           if (board.getSquare(startX+1,startY).getPawn() != null) {
             if (board.getSquare(startX+1,startY).getPawn().getEP()
               && board.getSquare(startX+1,startY).occupiedBy() == oppCol) {
-              Square toSquare = new Square(startX+1,startY + dir);
+              Square toSquare = board.getSquare(startX+1,startY + dir);
               moveList[moveCount] = new Move(startSquare,toSquare,true,true);
               moveCount += 1;
             }
@@ -123,7 +123,7 @@ public class Player {
           if (board.getSquare(startX-1,startY).getPawn() != null) {
             if (board.getSquare(startX-1,startY).getPawn().getEP()
             && board.getSquare(startX-1,startY).occupiedBy() == oppCol) {
-              Square toSquare = new Square(startX-1,startY + dir);
+              Square toSquare = board.getSquare(startX-1,startY + dir);
               moveList[moveCount] = new Move(startSquare,toSquare,true,true);
               moveCount += 1;
             }

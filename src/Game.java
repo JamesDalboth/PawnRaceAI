@@ -32,6 +32,15 @@ public class Game {
     } else {
       player = Color.WHITE;
     }
+  }
+  public void unApplyMove(Move move) {
+    moveInd -= 1;
+    brd.undoMove(move);
+    if (player == Color.WHITE) {
+      player = Color.BLACK;
+    } else {
+      player = Color.WHITE;
+    }
 
   }
 

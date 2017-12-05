@@ -46,18 +46,27 @@ public class Board{
     gameboard[toX][toY].getPawn().Move(false);
   }
 
+  public void undoMove(Move move) {
+    int toX = move.getTo().getX();
+    int toY = move.getTo().getY();
+    int frX = move.getFrom().getX();
+    int frY = move.getFrom().getY();
+    gameboard[toX][toY] = move.getTo();
+    gameboard[frX][frY] = move.getFrom();
+  }
+
   public void display() {
-    System.out.println("  ABCDEFGH  ");
-    System.out.println("            ");
+    System.out.println("  A B C D E F G H  ");
+    System.out.println();
     for (int i = 8; i > 0; i--){
       System.out.print(i + " ");
       for (int j = 0; j < 8; j++){
         if (gameboard[j][i-1].occupiedBy() == Color.WHITE){
-          System.out.print("W");
+          System.out.print("W ");
         } else if (gameboard[j][i-1].occupiedBy() == Color.BLACK) {
-          System.out.print("B");
+          System.out.print("B ");
         } else{
-          System.out.print(".");
+          System.out.print(". ");
         }
       }
       System.out.println(" " + i);
