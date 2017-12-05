@@ -74,7 +74,7 @@ public class Player {
 
       //Can move forward two
       if (board.getSquare(startX,startY).getPawn() != null) {
-        if (board.getSquare(startX,startY).getPawn().hasMoved()){
+        if (!board.getSquare(startX,startY).getPawn().hasMoved()){
           if (board.getSquare(startX,startY + dir).occupiedBy() == Color.NONE &&
           board.getSquare(startX,startY + 2*dir).occupiedBy() == Color.NONE){
             Square toSquare = new Square(startX,startY+2*dir);
