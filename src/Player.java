@@ -170,37 +170,43 @@ public class Player {
 
     return true;
   }
-
-  public void makeMove(int depth,boolean isMax) {
+  public void makeMove2(int depth,boolean isMax) {
     Move[] allValid = getAllValidMoves(color);
-    Move bestMove = null;
-    int bestScore = -10000;
-    for (int i = 0; i < allValid.length; i++) {
-      Move choice = allValid[i];
-      game.applyMove(choice);
-      int score = 0;
-      int curState = board.eval();
-      if (curState == 9999 || curState == -9999) {
-        score = curState;
-      } else {
-        score = minimax(depth-1,!isMax);
+    if (allValid.length == 0) {
+      game.End();
+    } else {
+      Move bestMove = null;
+      int bestScore = -100000000;
+      for (int i = 0; i < allValid.length; i++) {
+        Move choice = allValid[i];
+        game.applyMove(choice);
+        int score = 0;
+        int curState = board.eval();
+        if (curState == 9999 || curState == -9999) {
+          score = curState*100;
+        } else {
+          score = minimax2(depth-1,-100000000,100000000,!isMax);
+        }
+        if (!isMax) {
+          score *= -1;
+        }
+        game.unApplyMove(choice);
+        if (score > bestScore) {
+          bestScore = score;
+          bestMove = choice;
+        }
       }
-      game.unApplyMove(choice);
-      if (score > bestScore) {
-        bestScore = score;
-        bestMove = choice;
-      }
+      game.applyMove(bestMove);
+      System.out.println("___________");
+      System.out.println(bestMove.getSAN());
+      System.out.println("___________");
     }
-    game.applyMove(bestMove);
-    System.out.println("___________");
-    System.out.println(bestMove.getSAN());
-    System.out.println("___________");
   }
-
-  public int minimax(int depth,boolean isMax) {
+  
+  public int minimax2(int depth,int alpha, int beta,boolean isMax) {
     int curState = board.eval();
     if (curState == 9999 || curState == -9999) {
-      return curState;
+      return curState * depth;
     }
     if (depth == 0) {
       return board.eval();
@@ -211,8 +217,12 @@ public class Player {
       for (int i = 0; i < allValid.length; i++) {
         Move choice = allValid[i];
         game.applyMove(choice);
-        bestMove = Math.max(bestMove,minimax(depth-1,!isMax));
+        bestMove = Math.max(bestMove,minimax2(depth-1,alpha,beta,!isMax));
         game.unApplyMove(choice);
+        alpha = Math.max(alpha,bestMove);
+        if (beta <= alpha) {
+          return bestMove;
+        }
       }
       return bestMove;
     } else {
@@ -221,35 +231,14 @@ public class Player {
       for (int i = 0; i < allValid.length; i++) {
         Move choice = allValid[i];
         game.applyMove(choice);
-        bestMove = Math.min(bestMove,minimax(depth-1,!isMax));
+        bestMove = Math.min(bestMove,minimax2(depth-1,alpha,beta,!isMax));
         game.unApplyMove(choice);
+        beta = Math.min(beta,bestMove);
+        if (beta <= alpha) {
+          return bestMove;
+        }
       }
       return bestMove;
     }
-  }
-
-
-
-  public void AI1() {
-    Move[] allValid = getAllValidMoves(color);
-    Move bestMove = null;
-    int bestScore = -10000;
-    for (int i = 0; i < allValid.length; i++) {
-      Move choice = allValid[i];
-      game.applyMove(choice);
-      int score = board.eval();
-      if (color == Color.BLACK) {
-        score *= -1;
-      }
-      game.unApplyMove(choice);
-      if (score > bestScore) {
-        bestScore = score;
-        bestMove = choice;
-      }
-    }
-    game.applyMove(bestMove);
-    System.out.println("___________");
-    System.out.println(bestMove.getSAN());
-    System.out.println("___________");
   }
 }

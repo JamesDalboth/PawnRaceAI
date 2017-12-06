@@ -98,13 +98,13 @@ public class Board{
           if (j == 7) {
             return 9999;
           }
-          score += java.lang.Math.pow(j,2);
+          score += java.lang.Math.pow(2,j);
         }
         if (gameboard[i][j].occupiedBy() == Color.BLACK) {
           if (j == 0) {
             return -9999;
           }
-          score -= java.lang.Math.pow(7-j,2);
+          score -= java.lang.Math.pow(2,7-j);
         }
       }
     }

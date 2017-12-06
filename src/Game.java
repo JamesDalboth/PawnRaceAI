@@ -4,6 +4,7 @@ public class Game {
   private int moveInd;
   private Board brd;
   private Color player;
+  private boolean Over;
 
   public Game(Board board) {
     moves = new Move[200];
@@ -53,17 +54,35 @@ public class Game {
           return true;
         }
       }
-      return false;
+      boolean hasSeenWhite = false;
+      boolean hasSeenBlack = false;
+      for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+          if (brd.getSquare(i,j).occupiedBy() == Color.WHITE){
+            hasSeenWhite = true;
+          }
+          if (brd.getSquare(i,j).occupiedBy() == Color.BLACK){
+            hasSeenBlack = true;
+          }
+        }
+      }
+      if (!hasSeenWhite || !hasSeenBlack) {
+        return true;
+      }
+      return Over;
     }
 
     public Color getGameResult() {
       for (int i = 0; i < 8;i++) {
-        if (brd.getSquare(0,i).occupiedBy() != Color.NONE) {
+        if (brd.getSquare(i,0).occupiedBy() != Color.NONE) {
           return Color.BLACK;
         }
-        if (brd.getSquare(7,i).occupiedBy() != Color.NONE) {
+        if (brd.getSquare(i,7).occupiedBy() != Color.NONE) {
           return Color.WHITE;
         }
+      }
+      if (Over) {
+        return Color.NONE;
       }
       return null;
     }
@@ -144,5 +163,9 @@ public class Game {
         }
       }
       return new Move(new Square(fromX,fromY),new Square(toX,toY),isCapture,enPass);
+    }
+
+    public void End(){
+      Over = true;
     }
   }
