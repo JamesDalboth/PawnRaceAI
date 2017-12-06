@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 public class Player {
   private Game game;
   private Color color;
@@ -143,35 +144,48 @@ public class Player {
   }
 
   public void makeMove2(int depth,boolean isMax) {
-    Move[] allValid = getAllValidMoves(color);
-    if (allValid.length == 0) {
-      game.End();
-    } else {
-      Move bestMove = null;
-      int bestScore = -100000000;
-      for (int i = 0; i < allValid.length; i++) {
-        Move choice = allValid[i];
-        game.applyMove(choice);
-        int score = 0;
-        int curState = board.eval();
-        if (curState == 9999 || curState == -9999) {
-          score = curState*100;
-        } else {
-          score = minimax2(depth-1,-100000000,100000000,!isMax);
+    if (isComputerPlayer) {
+      Move[] allValid = getAllValidMoves(color);
+      if (allValid.length == 0) {
+        game.End();
+      } else {
+        Move bestMove = null;
+        int bestScore = -100000000;
+        for (int i = 0; i < allValid.length; i++) {
+          Move choice = allValid[i];
+          game.applyMove(choice);
+          int score = 0;
+          int curState = board.eval();
+          if (curState == 9999 || curState == -9999) {
+            score = curState*100;
+          } else {
+            score = minimax2(depth-1,-100000000,100000000,!isMax);
+          }
+          if (!isMax) {
+            score *= -1;
+          }
+          game.unApplyMove(choice);
+          if (score > bestScore) {
+            bestScore = score;
+            bestMove = choice;
+          }
         }
-        if (!isMax) {
-          score *= -1;
-        }
-        game.unApplyMove(choice);
-        if (score > bestScore) {
-          bestScore = score;
-          bestMove = choice;
-        }
+        game.applyMove(bestMove);
+        System.out.println("___________");
+        System.out.println(bestMove.getSAN());
+        System.out.println("___________");
       }
-      game.applyMove(bestMove);
-      System.out.println("___________");
-      System.out.println(bestMove.getSAN());
-      System.out.println("___________");
+    } else {
+
+      Scanner in = new Scanner(System.in);
+      String inputMove;
+      Move choice = null;
+      while (choice == null) {
+        System.out.print("Move -> ");
+        inputMove = in.nextLine();
+        choice = game.parseMove(inputMove);
+      }
+      game.applyMove(choice);
     }
   }
 

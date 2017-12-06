@@ -106,10 +106,10 @@ public class Board{
             score += java.lang.Math.pow(2,j);
           }
           if (isBlockerBoi(i,j,gameboard[i][j].occupiedBy())) {
-            score += 10;
+            score += 30;
           }
           if (isProtectorBoi(i,j,gameboard[i][j].occupiedBy())) {
-            score += 10;
+            score += 30;
           }
         }
         if (gameboard[i][j].occupiedBy() == Color.BLACK) {
@@ -124,10 +124,10 @@ public class Board{
             score -= java.lang.Math.pow(2,j);
           }
           if (isBlockerBoi(i,j,gameboard[i][j].occupiedBy())) {
-            score -= 10;
+            score -= 30;
           }
           if (isProtectorBoi(i,j,gameboard[i][j].occupiedBy())) {
-            score -= 10;
+            score -= 30;
           }
         }
       }

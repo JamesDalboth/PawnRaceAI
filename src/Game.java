@@ -89,36 +89,36 @@ public class Game {
 
     public Move parseMove(String san) {
       boolean isCapture = false;
-      String fromPos = "";
-      String toPos = san.charAt(0) + "";
+      String fromPos = (san.charAt(0) + "");
+      String toPos = "";
       if (san.length() == 4) {
         isCapture = true;
-        fromPos = ("" + san.charAt(2)) + (san.charAt(3)+ "");
+        toPos = (san.charAt(2) + "" + san.charAt(3) + "");
       } else {
-        fromPos = ("" + san.charAt(0)) + (san.charAt(1)+ "");
+        toPos = (san.charAt(0) + "" + san.charAt(1) + "");
       }
-      int toX = Integer.parseInt(toPos.charAt(0) + "");
+      int toX = ((int) toPos.charAt(0)) - 97;
       int fromY;
-      int fromX = Integer.parseInt(fromPos.charAt(0) + "");
+      int fromX = ((int) fromPos.charAt(0)) - 97;
       int toY = Integer.parseInt(toPos.charAt(1) + "") - 1;
       if (!isCapture) {
         if (player == Color.WHITE) {
-          if (brd.getSquare(toY - 1,fromX).occupiedBy() == Color.WHITE) {
+          if (brd.getSquare(fromX,toY - 1).occupiedBy() == Color.WHITE) {
             fromY = toY - 1;
-          } else if (brd.getSquare(toY - 2,fromX).occupiedBy() == Color.WHITE){
+          } else if (brd.getSquare(fromX,toY - 2).occupiedBy() == Color.WHITE){
             fromY = toY - 2;
-            if (brd.getSquare(fromY,fromX).getPawn().hasMoved()) {
+            if (brd.getSquare(fromX,fromY).getPawn().hasMoved()) {
               return null;
             }
           } else {
             return null;
           }
         } else {
-          if (brd.getSquare(toY + 1,fromX).occupiedBy() == Color.BLACK) {
+          if (brd.getSquare(fromX,toY + 1).occupiedBy() == Color.BLACK) {
             fromY = toY + 1;
-          } else if (brd.getSquare(toY + 2,fromX).occupiedBy() == Color.BLACK){
+          } else if (brd.getSquare(fromX,toY + 2).occupiedBy() == Color.BLACK){
             fromY = toY + 2;
-            if (brd.getSquare(fromY,fromX).getPawn().hasMoved()) {
+            if (brd.getSquare(fromX,fromY).getPawn().hasMoved()) {
               return null;
             }
           } else {
@@ -127,15 +127,17 @@ public class Game {
         }
       } else {
         if (player == Color.WHITE) {
-          if (brd.getSquare(toY - 1,toX).occupiedBy() == Color.WHITE) {
+          if (brd.getSquare(toX,toY).occupiedBy() == Color.BLACK) {
             fromY = toY - 1;
           } else {
             return null;
           }
         } else {
-          if (brd.getSquare(toY + 1,toX).occupiedBy() == Color.BLACK) {
+          if (brd.getSquare(toX,toY).occupiedBy() == Color.WHITE) {
             fromY = toY + 1;
+
           } else {
+            System.out.println(toY);
             return null;
           }
         }
@@ -145,24 +147,26 @@ public class Game {
       if (player == Color.WHITE) {
         opColor = Color.BLACK;
       }
-      if (brd.getSquare(toY,toX).occupiedBy() == opColor) {
+
+      if (brd.getSquare(toX,toY).occupiedBy() == opColor || !isCapture) {
         enPass = false;
       } else {
         enPass = true;
       }
-
       if (enPass) {
         if (player == Color.WHITE) {
-          if (!(brd.getSquare(toY-1,toX).occupiedBy() == Color.BLACK && brd.getSquare(toY-1,toX).getPawn().getEP())) {
+          if (!(brd.getSquare(toX,toY-1).occupiedBy() == Color.BLACK && brd.getSquare(toX,toY-1).getPawn().getEP())) {
             return null;
           }
         } else {
-          if (!(brd.getSquare(toY+1,toX).occupiedBy() == Color.WHITE && brd.getSquare(toY+1,toX).getPawn().getEP())) {
+          if (!(brd.getSquare(toX,toY+1).occupiedBy() == Color.WHITE && brd.getSquare(toX,toY+1).getPawn().getEP())) {
             return null;
           }
         }
       }
-      return new Move(new Square(fromX,fromY),new Square(toX,toY),isCapture,enPass);
+      Move parsedMove = new Move(new Square(fromX,fromY),new Square(toX,toY),isCapture,enPass);
+      System.out.println(parsedMove.getSAN());
+      return parsedMove;
     }
 
     public void End(){
