@@ -191,6 +191,7 @@ public class Player {
 
   public int minimax2(int depth,int alpha, int beta,boolean isMax) {
     int curState = board.eval();
+
     if (curState == 9999 || curState == -9999) {
       return curState * depth;
     }

@@ -98,17 +98,17 @@ public class Board{
           if (j == 7) {
             return 9999;
           }
-          if (isPassedPawn(j,gameboard[i][j].occupiedBy())) {
+          if (isPassedPawn(j,Color.WHITE)) {
             score += java.lang.Math.pow(4,j);
-          } else if (lonelyPawn(i,j,gameboard[i][j].occupiedBy())){
+          } else if (lonelyPawn(i,j,Color.WHITE)){
             score += java.lang.Math.pow(6,j);
           } else {
             score += java.lang.Math.pow(2,j);
           }
-          if (isBlockerBoi(i,j,gameboard[i][j].occupiedBy())) {
+          if (isBlockerBoi(i,j,Color.WHITE)) {
             score += 30;
           }
-          if (isProtectorBoi(i,j,gameboard[i][j].occupiedBy())) {
+          if (isProtectorBoi(i,j,Color.WHITE)) {
             score += 30;
           }
         }
@@ -116,17 +116,17 @@ public class Board{
           if (j == 0) {
             return -9999;
           }
-          if (isPassedPawn(j,gameboard[i][j].occupiedBy())) {
+          if (isPassedPawn(j,Color.BLACK)) {
             score -= java.lang.Math.pow(4,j);
-          } else if (lonelyPawn(i,j,gameboard[i][j].occupiedBy())){
+          } else if (lonelyPawn(i,j,Color.BLACK)){
             score -= java.lang.Math.pow(6,j);
           } else {
             score -= java.lang.Math.pow(2,j);
           }
-          if (isBlockerBoi(i,j,gameboard[i][j].occupiedBy())) {
+          if (isBlockerBoi(i,j,Color.BLACK)) {
             score -= 30;
           }
-          if (isProtectorBoi(i,j,gameboard[i][j].occupiedBy())) {
+          if (isProtectorBoi(i,j,Color.BLACK)) {
             score -= 30;
           }
         }
@@ -239,6 +239,38 @@ public class Board{
       }
       if (i+1 <8) {
         if (gameboard[i+1][j-1].occupiedBy() == col) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public boolean isVulnBoi(int i, int j, Color col) {
+    Color oppCol = Color.WHITE;
+    if (col == oppCol){
+      oppCol = Color.BLACK;
+    }
+    if (col == Color.WHITE) {
+
+      if (j < 7 && i-1 >=0) {
+        if (gameboard[i-1][j+1].occupiedBy() == oppCol) {
+          return true;
+        }
+      }
+      if (j < 7 && i <7) {
+        if (gameboard[i+1][j+1].occupiedBy() == oppCol) {
+          return true;
+        }
+      }
+    } else {
+      if (j >0 && i-1 >=0) {
+        if (gameboard[i-1][j-1].occupiedBy() == oppCol) {
+          return true;
+        }
+      }
+      if (j >0 && i <7) {
+        if (gameboard[i+1][j-1].occupiedBy() == oppCol) {
           return true;
         }
       }
