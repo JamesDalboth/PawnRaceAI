@@ -105,7 +105,12 @@ public class Board{
           } else {
             score += java.lang.Math.pow(2,j);
           }
-
+          if (isBlockerBoi(i,j,gameboard[i][j].occupiedBy())) {
+            score += 10;
+          }
+          if (isProtectorBoi(i,j,gameboard[i][j].occupiedBy())) {
+            score += 10;
+          }
         }
         if (gameboard[i][j].occupiedBy() == Color.BLACK) {
           if (j == 0) {
@@ -117,6 +122,12 @@ public class Board{
             score -= java.lang.Math.pow(6,j);
           } else {
             score -= java.lang.Math.pow(2,j);
+          }
+          if (isBlockerBoi(i,j,gameboard[i][j].occupiedBy())) {
+            score -= 10;
+          }
+          if (isProtectorBoi(i,j,gameboard[i][j].occupiedBy())) {
+            score -= 10;
           }
         }
       }
@@ -186,6 +197,53 @@ public class Board{
     }
 
     return true;
+  }
+
+  public boolean isBlockerBoi(int i, int j, Color col) {
+    Color oppCol = Color.WHITE;
+    if (col == oppCol){
+      oppCol = Color.BLACK;
+    }
+    if (col == Color.WHITE) {
+      if (gameboard[i][j+1].occupiedBy() == oppCol) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (gameboard[i][j-1].occupiedBy() == oppCol) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  public boolean isProtectorBoi(int i, int j, Color col) {
+    if (col == Color.WHITE) {
+      if (i-1 >= 0) {
+        if (gameboard[i-1][j+1].occupiedBy() == col) {
+          return true;
+        }
+      }
+      if (i+1 <8) {
+        if (gameboard[i+1][j+1].occupiedBy() == col) {
+          return true;
+        }
+      }
+    } else {
+      if (i-1 >= 0) {
+        if (gameboard[i-1][j-1].occupiedBy() == col) {
+          return true;
+        }
+      }
+      if (i+1 <8) {
+        if (gameboard[i+1][j-1].occupiedBy() == col) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
 }

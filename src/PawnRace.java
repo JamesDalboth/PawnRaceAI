@@ -2,7 +2,7 @@ import java.util.Scanner;
 public class PawnRace {
   private static boolean player1Human;
   private static boolean player2Human;
-  private static int depth = 7;
+  private static int depth = 6;
   public static void main(String[] args) {
     if (args[0] == "P") {
       player1Human = true;
@@ -27,7 +27,7 @@ public class PawnRace {
       if (player1Move == true) {
         player1.makeMove2(depth,true);
       } else {
-        player2.makeMove2(6,false);
+        player2.makeMove2(depth,false);
       }
       player1Move = !player1Move;
     }
