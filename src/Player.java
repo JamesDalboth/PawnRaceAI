@@ -142,34 +142,6 @@ public class Player {
     return result;
   }
 
-  public boolean isPassedPawn(Square square,Color col) {
-    Color oppCol = Color.WHITE;
-    if (col == oppCol){
-      oppCol = Color.BLACK;
-    }
-
-    if (col == Color.WHITE) {
-      for (int i = square.getY();i<8;i++){
-        for (int j = 0; j < 8;j++){
-          if (board.getSquare(i,j).occupiedBy() == oppCol) {
-            return false;
-          }
-        }
-      }
-    }
-
-    if (col == Color.BLACK) {
-      for (int i = square.getY();i>=0;i--){
-        for (int j = 0; j < 8;j++){
-          if (board.getSquare(i,j).occupiedBy() == oppCol) {
-            return false;
-          }
-        }
-      }
-    }
-
-    return true;
-  }
   public void makeMove2(int depth,boolean isMax) {
     Move[] allValid = getAllValidMoves(color);
     if (allValid.length == 0) {
@@ -202,7 +174,7 @@ public class Player {
       System.out.println("___________");
     }
   }
-  
+
   public int minimax2(int depth,int alpha, int beta,boolean isMax) {
     int curState = board.eval();
     if (curState == 9999 || curState == -9999) {

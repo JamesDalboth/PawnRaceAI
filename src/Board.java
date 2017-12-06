@@ -98,17 +98,94 @@ public class Board{
           if (j == 7) {
             return 9999;
           }
-          score += java.lang.Math.pow(2,j);
+          if (isPassedPawn(j,gameboard[i][j].occupiedBy())) {
+            score += java.lang.Math.pow(4,j);
+          } else if (lonelyPawn(i,j,gameboard[i][j].occupiedBy())){
+            score += java.lang.Math.pow(6,j);
+          } else {
+            score += java.lang.Math.pow(2,j);
+          }
+
         }
         if (gameboard[i][j].occupiedBy() == Color.BLACK) {
           if (j == 0) {
             return -9999;
           }
-          score -= java.lang.Math.pow(2,7-j);
+          if (isPassedPawn(j,gameboard[i][j].occupiedBy())) {
+            score -= java.lang.Math.pow(4,j);
+          } else if (lonelyPawn(i,j,gameboard[i][j].occupiedBy())){
+            score -= java.lang.Math.pow(6,j);
+          } else {
+            score -= java.lang.Math.pow(2,j);
+          }
         }
       }
     }
     return score;
+  }
+  public boolean lonelyPawn(int x,int y, Color col) {
+    if (col == Color.WHITE) {
+      for (int i = y+1; i < 8; i ++) {
+        if (gameboard[x][i].occupiedBy() == Color.BLACK) {
+          return false;
+        }
+        if (x+1<8) {
+          if (gameboard[x+1][i].occupiedBy() == Color.BLACK) {
+            return false;
+          }
+        }
+        if (x-1>-1) {
+          if (gameboard[x-1][i].occupiedBy() == Color.BLACK) {
+            return false;
+          }
+        }
+      }
+    } else {
+      for (int i = y-1; i >= 0; i --) {
+        if (gameboard[x][i].occupiedBy() == Color.WHITE) {
+          return false;
+        }
+        if (x+1<8) {
+          if (gameboard[x+1][i].occupiedBy() == Color.WHITE) {
+            return false;
+          }
+        }
+        if (x-1>-1) {
+          if (gameboard[x-1][i].occupiedBy() == Color.WHITE) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+  public boolean isPassedPawn(int y,Color col) {
+    Color oppCol = Color.WHITE;
+    if (col == oppCol){
+      oppCol = Color.BLACK;
+    }
+
+    if (col == Color.WHITE) {
+      for (int i = y;i<8;i++){
+        for (int j = 0; j < 8;j++){
+          if (gameboard[i][j].occupiedBy() == oppCol) {
+            return false;
+          }
+        }
+      }
+    }
+
+    if (col == Color.BLACK) {
+      for (int i = y;i>=0;i--){
+        for (int j = 0; j < 8;j++){
+          if (gameboard[i][j].occupiedBy() == oppCol) {
+            return false;
+          }
+        }
+      }
+    }
+
+    return true;
   }
 
 }
