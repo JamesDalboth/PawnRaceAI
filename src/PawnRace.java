@@ -2,7 +2,7 @@
 public class PawnRace {
   private static boolean player1Human;
   private static boolean player2Human;
-  private static int depth = 6;
+  private static int maxDepth = 8;
   public static void main(String[] args) {
     if (args[0].charAt(0) == 'P') {
       player1Human = true;
@@ -17,15 +17,15 @@ public class PawnRace {
 
     Board board = new Board(args[2].charAt(0),args[3].charAt(0));
     Game game = new Game(board);
-    Player player1 = new Player(game,board,Color.WHITE,!player1Human);
-    Player player2 = new Player(game,board,Color.BLACK,!player2Human);
+    Player player1 = new Player(game,board,Color.WHITE,!player1Human,maxDepth);
+    Player player2 = new Player(game,board,Color.BLACK,!player2Human,maxDepth);
     boolean player1Move = true;
     while (!game.isFinished()) {
       board.display();
       if (player1Move == true) {
-        player1.makeMove2(depth,true);
+        player1.makeMove2();
       } else {
-        player2.makeMove2(depth,false);
+        player2.makeMove2();
       }
       player1Move = !player1Move;
     }

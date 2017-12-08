@@ -6,12 +6,14 @@ public class Player {
   private Board board;
   private boolean isComputerPlayer;
   private Player opp;
-
-  public Player(Game gm, Board brd, Color clr, boolean isCP){
+  private int MaxDepth;
+  private int moveCount = 0;
+  public Player(Game gm, Board brd, Color clr, boolean isCP,int md){
     game = gm;
     color = clr;
     board = brd;
     isComputerPlayer = isCP;
+    MaxDepth = md;
   }
 
   public void setOpponent(Player opponent){
@@ -142,8 +144,18 @@ public class Player {
     }
     return result;
   }
-
-  public void makeMove2(int depth,boolean isMax) {
+  public int DSN(int x) {
+    return Math.min(x+3,MaxDepth);
+  }
+  public void makeMove2() {
+    moveCount++;
+    int depth = DSN(moveCount);
+    boolean isMax;
+    if (color == Color.WHITE){
+      isMax = true;
+    }else {
+      isMax = false;
+    }
     if (isComputerPlayer) {
       Move[] allValid = getAllValidMoves(color);
       if (allValid.length == 0) {
