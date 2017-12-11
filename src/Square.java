@@ -54,4 +54,8 @@ public class Square {
     }
   }
 
+  public void Update() {
+    piece.Update();
+  }
+
 }

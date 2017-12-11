@@ -14,6 +14,9 @@ public class Pawn {
     hasMoved = true;
     canEP = doubleMove;
   }
+  public void Update(){
+    canEP = false;
+  }
 
   public boolean getEP(){
     return canEP;

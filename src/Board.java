@@ -278,4 +278,8 @@ public class Board{
     return false;
   }
 
+  public void Update(int i , int j) {
+    gameboard[i][j].Update();
+  }
+
 }

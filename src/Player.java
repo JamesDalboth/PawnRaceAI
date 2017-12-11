@@ -8,6 +8,8 @@ public class Player {
   private Player opp;
   private int MaxDepth;
   private int moveCount = 0;
+  private double maxSec = 4.5;
+  private double curSec;
   public Player(Game gm, Board brd, Color clr, boolean isCP,int md){
     game = gm;
     color = clr;
@@ -148,6 +150,8 @@ public class Player {
     return Math.min(x+3,MaxDepth);
   }
   public void makeMove2() {
+    Update();
+    curSec = System.currentTimeMillis();
     moveCount++;
     int depth = DSN(moveCount);
     boolean isMax;
@@ -171,7 +175,7 @@ public class Player {
           if (curState == 9999 || curState == -9999) {
             score = curState*100;
           } else {
-            score = minimax2(depth-1,-100000000,100000000,!isMax);
+            score = minimax(depth-1,-100000000,100000000,!isMax);
           }
           if (!isMax) {
             score *= -1;
@@ -186,6 +190,8 @@ public class Player {
         System.out.println("___________");
         System.out.println(bestMove.getSAN());
         System.out.println("___________");
+        double curTime = (System.currentTimeMillis() - curSec)/1000;
+        System.out.println(curTime);
       }
     } else {
 
@@ -201,13 +207,16 @@ public class Player {
     }
   }
 
-  public int minimax2(int depth,int alpha, int beta,boolean isMax) {
+  public int minimax(int depth,int alpha, int beta,boolean isMax) {
     int curState = board.eval();
-
+    double curTime = (System.currentTimeMillis() - curSec)/1000;
     if (curState == 9999 || curState == -9999) {
       return curState * depth;
     }
-    if (depth == 0) {
+    if (curTime > maxSec) {
+      System.out.println("not best move");
+    }
+    if (depth == 0 || curTime > maxSec) {
       return board.eval();
     }
     if (isMax){
@@ -216,7 +225,7 @@ public class Player {
       for (int i = 0; i < allValid.length; i++) {
         Move choice = allValid[i];
         game.applyMove(choice);
-        bestMove = Math.max(bestMove,minimax2(depth-1,alpha,beta,!isMax));
+        bestMove = Math.max(bestMove,minimax(depth-1,alpha,beta,!isMax));
         game.unApplyMove(choice);
         alpha = Math.max(alpha,bestMove);
         if (beta <= alpha) {
@@ -230,7 +239,7 @@ public class Player {
       for (int i = 0; i < allValid.length; i++) {
         Move choice = allValid[i];
         game.applyMove(choice);
-        bestMove = Math.min(bestMove,minimax2(depth-1,alpha,beta,!isMax));
+        bestMove = Math.min(bestMove,minimax(depth-1,alpha,beta,!isMax));
         game.unApplyMove(choice);
         beta = Math.min(beta,bestMove);
         if (beta <= alpha) {
@@ -238,6 +247,16 @@ public class Player {
         }
       }
       return bestMove;
+    }
+  }
+
+  public void Update() {
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        if (board.getSquare(i,j).occupiedBy() == color) {
+          board.Update(i,j);
+        }
+      }
     }
   }
 }
